@@ -2,8 +2,6 @@
 
 timeout 0.2 ping -c1 google.com &> /dev/null
 
-echo $?
-
 if [ "$?" == "0" ]; then
     echo "The internet is working"
 else
