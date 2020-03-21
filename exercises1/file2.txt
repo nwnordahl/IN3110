@@ -2,3 +2,4 @@ This is another file containing some more text.
 Here's a new line.
 And here's another one.
 This is the last line.
+Just kidding, this is the last line ;)
