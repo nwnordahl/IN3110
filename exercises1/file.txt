@@ -1,3 +1,4 @@
 This file contains text.
 Here's a new line.
 And here's another one.
+Let's add another line.
