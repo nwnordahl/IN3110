@@ -3,15 +3,15 @@
 function track {
 # Track tasks.
 
-if [ -f "track.txt" ]; then
-    if [ "$(tail -n1 'track.txt' | cut -d' ' -f1)" == "LABEL" ]; then
-        START="on"
+    if [ -f "track.txt" ]; then
+        if [ "$(tail -n1 'track.txt' | cut -d' ' -f1)" == "LABEL" ]; then
+            START="on"
+        else
+            START="off"
+        fi
     else
         START="off"
     fi
-else
-    START="off"
-fi
 
     if [ "$1" == "start" ]; then
         if [ $START == "off" ]; then
@@ -37,10 +37,12 @@ fi
             echo "There is no active task"
         fi
     else
-        echo "Usage: track <command>"
-        echo "Commands:"
-        echo "start <label> - Start tracking a new task with name <label>"
-        echo "stop - Stop tracking task"
-        echo "status - Show current status of tracking"
+	cat <<-EOF
+	Usage: track <command>
+	Commands:
+	start <label> - Start tracking a new task with name <label>
+	stop - Stop tracking task
+	status - Show current status of tracking
+	EOF
     fi
 }
