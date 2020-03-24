@@ -3,7 +3,7 @@
 NAME=$1
 AGE=$2
 
-CHAR=$(expr $(echo $1 | wc -m) - $(echo $1 | wc -w))
+CHAR=$(expr $(echo $1 | wc -m) - $(echo $1 | wc -w)) # Make up for wc counting spaces
 WORD=$(echo $1 | wc -w)
 
 if [ $WORD -gt 1 ]; then
