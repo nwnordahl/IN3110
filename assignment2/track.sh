@@ -20,7 +20,7 @@ function track {
             echo "START $(date)" >> track.txt
             echo "LABEL $NAME" >> track.txt
         else
-            echo "There is already a task being tracked"
+            echo There is already a task being tracked
         fi
     elif [ "$1" == "stop" ]; then
         if [ $START == "on" ]; then
@@ -28,13 +28,13 @@ function track {
             echo "END $(date)" >> track.txt
             echo >> track.txt
         else
-            echo "There is no task currently being tracked"
+            echo There is no task currently being tracked
         fi
     elif [ "$1" == "status" ]; then
         if [ $START == "on" ]; then
-            echo "Currently tracking ${NAME}."
+            echo Currently tracking $NAME
         else
-            echo "There is no active task"
+            echo There is no active task
         fi
     elif [ "$1" == "log" ]; then
         declare -i n; n=1
@@ -46,29 +46,40 @@ function track {
 
                 if [ $((n % 4)) -eq 1 ]; then
                     LOG_START=$(echo $t | cut -d' ' -f2-)
-                    LOG_START=$(date --date '$LOG_START' +%s) # Date converted to seconds since the UNIX epoch
+                    LOG_START=$(date --date "$LOG_START" +%s) # Date converted to seconds since the UNIX epoch
                 elif [ $((n % 4)) -eq 2 ]; then
                     LOG_NAME=$(echo $t | cut -d' ' -f2-)
                 elif [ $((n % 4)) -eq 3 ]; then
                     LOG_STOP=$(echo $t | cut -d' ' -f2-)
-                    LOG_STOP=$(date --date '$LOG_STOP' +%s) # Date converted to seconds the UNIX epcoch
-                    LOG_TOTAL=$((LOG_START -LOG_STOP))
-                    echo ${LOG_NAME}: $LOG_TOTAL
+                    LOG_STOP=$(date --date "$LOG_STOP" +%s) # Date converted to seconds since the UNIX epcoch
+                    LOG_TOTAL=$((LOG_STOP - LOG_START))
+
+                    # Convert back to hours, minutes and seconds
+                    HOUR=$((LOG_TOTAL / 3600))
+                    MINUTE=$(((LOG_TOTAL -(HOUR * 3600)) / 60))
+                    SECOND=$((LOG_TOTAL - (HOUR * 3600) - (MINUTE * 60)))
+                    echo ${LOG_NAME}: $(printf "%02d" $HOUR):$(printf "%02d" $MINUTE):$(printf "%02d" $SECOND)
                 fi 
                 ((n++))
             done < track.txt
+            echo Currently tracking $NAME
         else
             while read t; do
                 if [ $((n % 4)) -eq 1 ]; then
                     LOG_START=$(echo $t | cut -d' ' -f2-)
-                    LOG_START=$(date --date '$LOG_START' +%s) # Date converted to seconds since the UNIX epoch
+                    LOG_START=$(date --date "$LOG_START" +%s) # Date converted to seconds since the UNIX epoch
                 elif [ $((n % 4)) -eq 2 ]; then
                     LOG_NAME=$(echo $t | cut -d' ' -f2-)
                 elif [ $((n % 4)) -eq 3 ]; then
                     LOG_STOP=$(echo $t | cut -d' ' -f2-)
-                    LOG_STOP=$(date --date '$LOG_STOP' +%s) # Date converted to seconds since the UNIX epoch
-                    LOG_TOTAL=$((LOG_START - LOG_STOP))
-                    echo ${LOG_NAME}: $LOG_TOTAL
+                    LOG_STOP=$(date --date "$LOG_STOP" +%s) # Date converted to seconds since the UNIX epoch
+                    LOG_TOTAL=$((LOG_STOP - LOG_START))
+
+                    # Convert back to hours, minutes and seconds
+                    HOUR=$((LOG_TOTAL / 3600))
+                    MINUTE=$(((LOG_TOTAL - (HOUR * 3600)) / 60))
+                    SECOND=$((LOG_TOTAL - (HOUR * 3600) - (MINUTE * 60)))
+                    echo ${LOG_NAME}: $(printf "%02d" $HOUR):$(printf "%02d" $MINUTE):$(printf "%02d" $SECOND)
                 fi
                 ((n++))
             done < track.txt
