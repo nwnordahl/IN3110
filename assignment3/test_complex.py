@@ -16,7 +16,7 @@ def test_add2():
 
 def test_add3():
     z_1 = Complex(0, 0)
-    z_2= Complex(1, 1)
+    z_2 = Complex(1, 1)
     assert z_1 + z_2 == Complex(1, 1)
 
 
@@ -83,3 +83,13 @@ def test_eq2():
 def test_eq3():
     z_1 = Complex(1, 1)
     assert z_1 == z_1
+
+
+def test_add_mixed():
+    z_1 = Complex(2, 3)
+    assert z_1 + (2 + 2j) == Complex(4, 5)
+
+
+def test_mul_sub_mixed():
+    z_1 = Complex(3, 4)
+    assert 4 * z_1 - 2 == Complex(10, 16)
