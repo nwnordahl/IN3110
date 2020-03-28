@@ -7,6 +7,6 @@ function wc {
     elif [ $# -gt 1 ]; then
         echo Only provide one argument
     else   
-        ./wc.py "$1"
+        ~/IN3110/assignment3/wc.py "$1"
     fi
 }
