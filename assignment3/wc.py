@@ -10,15 +10,20 @@ def wc(filename):
     word_counter = 0
     letter_counter = 0
 
-    file = open(filename, 'r')
+    try:
+        file = open(filename, 'r')
 
-    for line in file:
-        line_counter += 1
-        word_counter += len(line.split())
-        letter_counter += len(line)
-    file.close()
+        for line in file:
+            line_counter += 1
+            word_counter += len(line.split())
+            letter_counter += len(line)
+        file.close()
 
-    print(line_counter, word_counter, letter_counter, filename)
+        print(line_counter, word_counter, letter_counter, filename)
+    except UnicodeDecodeError:
+        print(f'{filename} is not utf-8 encoded')
+    except PermissionError:
+        print(f'Don\'t have access to {filename}')
 
 
 if __name__ == "__main__":
@@ -30,7 +35,8 @@ if __name__ == "__main__":
             wc(filename)
 
     elif option == "*.py":
-        files = [f for f in listdir() if isfile(f) and f.split('.')[-1] == "py"]
+        files = [f for f in listdir()
+                 if isfile(f) and f.split('.')[-1] == "py"]
         for filename in files:
             wc(filename)
 
