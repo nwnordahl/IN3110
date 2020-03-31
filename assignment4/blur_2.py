@@ -4,8 +4,8 @@ import numpy as np
 import cv2
 
 
-def blur(filename):
-    src = cv2.imread(filename)
+def blur(infile, outfile):
+    src = cv2.imread(infile)
 
     src = src.astype("uint32")  # Prevent overloading when using uint8
     src = np.pad(src, ((1, 1), (1, 1), (0, 0)), mode='edge')
@@ -16,8 +16,8 @@ def blur(filename):
            + src[2:, 2:, :] + src[:-2, 2:, :] + src[2:, :-2, :])/9
 
     dst = dst.astype("uint8")  # Round to nearest integer
-    cv2.imwrite(f"blurred_{filename.split('.')[0]}_2.jpg", dst)
+    cv2.imwrite(outfile, dst)
 
 
 if __name__ == "__main__":
-    blur("beatles.jpg")
+    blur("beatles.jpg", "blurred_beatles_2.jpg")

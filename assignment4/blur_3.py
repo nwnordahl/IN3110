@@ -6,9 +6,9 @@ from numba import jit
 
 
 @jit
-def calculate_blur(filename):
-    src = cv2.imread(filename)
-    dst = cv2.imread(filename)
+def blur_3(infile, outfile):
+    src = cv2.imread(infile)
+    dst = cv2.imread(infile)
 
     src = src.astype("uint32")  # Prevent overloading when using uint8
     src = np.pad(src, ((1, 1), (1, 1), (0, 0)), mode='edge')
@@ -22,11 +22,10 @@ def calculate_blur(filename):
                                     + src[h, w-1, c] + src[h, w+1, c]
                                     + src[h-1, w-1, c] + src[h+1, w+1, c]
                                     + src[h-1, w+1, c] + src[h+1, w-1, c])/9
-    return dst
+
+    dst = dst.astype("uint8")  # Round to nearest integer
+    cv2.imwrite(outfile, dst)
 
 
 if __name__ == "__main__":
-    filename = "beatles.jpg"
-    dst = calculate_blur(filename)
-    dst = dst.astype("uint8")  # Round to nearest integer
-    cv2.imwrite(f"blurred_{filename.split('.')[0]}_3.jpg", dst)
+    blur_3("beatles.jpg", "blurred_beatles_3.jpg")
