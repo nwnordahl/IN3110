@@ -4,7 +4,7 @@ import numpy as np
 import cv2
 
 
-def blur(infile, outfile):
+def blur_2(infile, outfile):
     src = cv2.imread(infile)
 
     src = src.astype("uint32")  # Prevent overloading when using uint8
@@ -20,4 +20,4 @@ def blur(infile, outfile):
 
 
 if __name__ == "__main__":
-    blur("beatles.jpg", "blurred_beatles_2.jpg")
+    blur_2("beatles.jpg", "blurred_beatles_2.jpg")
