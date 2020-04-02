@@ -1,5 +1,5 @@
 #!/bin/bash
 
 function blur {
-    ~/IN3110/assignment4/blur.py $1 $2 $3
+    ~/IN3110/assignment4/blur/blur.py $1 $2 $3
 }

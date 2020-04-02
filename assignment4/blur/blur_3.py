@@ -28,4 +28,4 @@ def blur_3(infile, outfile):
 
 
 if __name__ == "__main__":
-    blur_3("beatles.jpg", "blurred_beatles_3.jpg")
+    blur_3("../images/beatles.jpg", "../images/blurred_beatles_3.jpg")
