@@ -22,16 +22,19 @@ def test_blur_average():
 
     cv2.imwrite("test.jpg", img)
     dst = blur_image("test.jpg")
+    img = cv2.imread("test.jpg")
     os.remove("test.jpg")
 
     i = np.random.randint(0, img.shape[0])
     j = np.random.randint(0, img.shape[1])
     k = np.random.randint(0, img.shape[2])
 
+    img = img.astype("uint32")
     img = np.pad(img, ((1, 1), (1, 1), (0, 0)), mode='edge')
-    average = img[i, j, k] / 9 + img[i-1, j, k] / 9 + img[i+1, j, k] / 9 \
-        + img[i, j-1, k] / 9 + img[i, j+1, k] / 9 \
-        + img[i-1, j-1, k] / 9 + img[i+1, j+1, k] / 9 \
-        + img[i-1, j+1, k] / 9 + img[i+1, j-1, k] / 9
+    average = (img[i, j, k] + img[i-1, j, k] + img[i+1, j, k]
+               + img[i, j-1, k] + img[i, j+1, k]
+               + img[i-1, j-1, k] + img[i+1, j+1, k]
+               + img[i-1, j+1, k] + img[i+1, j-1, k])/9
+    average = average.astype("uint8")
 
-    assert abs(average - dst[i, j, k]) < 1e-14
+    assert abs(average - dst[i-1, j-1, k]) < 1e-14
